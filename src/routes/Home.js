@@ -9,13 +9,16 @@ const Home = ({ userObj }) => {
   const [attachment, setAttachment] = useState();
 
   useEffect(() => {
-    dbService.collection("nweets").onSnapshot((snapshot) => {
-      const nweetArray = snapshot.docs.map((document) => ({
-        id: document.id,
-        ...document.data(),
-      }));
-      setNweets(nweetArray);
-    });
+    dbService
+      .collection("nweets")
+      .orderBy("createdAt", "desc")
+      .onSnapshot((snapshot) => {
+        const nweetArray = snapshot.docs.map((document) => ({
+          id: document.id,
+          ...document.data(),
+        }));
+        setNweets(nweetArray);
+      });
   }, []);
 
   const onSubmit = async (event) => {
